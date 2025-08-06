@@ -1,0 +1,409 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* This file is for your main application CSS */
+
+@layer components {
+
+  /* AnimalLive.Index */
+
+  /* AnimalLive.Index */
+  .animal-index .animals {
+    @apply mt-6 grid grid-cols-2 md:grid-cols-3 gap-6;
+  }
+
+  .animal-index .animals .card {
+    @apply bg-white rounded-2xl shadow-md overflow-hidden border border-gray-200 pb-4;
+  }
+
+  .animal-index .animals .card .specie-breed {
+    @apply py-3 text-center bg-gray-200 text-gray-600 font-bold text-sm;
+  }
+
+  .animal-index .animals .card img {
+    @apply w-[200px] h-[200px] mx-auto object-contain;
+  }
+
+  .animal-index .animals .card h2 {
+    @apply px-4 mt-2 text-center text-sky-600 font-semibold truncate;
+  }
+
+  .animal-index .animals .card .details {
+    @apply px-6 mt-4 flex items-center justify-between;
+  }
+
+  .animal-index .animals .card .details .name {
+    @apply text-sm text-gray-600 font-medium;
+  }
+
+  .animal-index form {
+    @apply sm:flex justify-center gap-4 items-center;
+  }
+
+  .animal-index form a {
+    @apply text-sm underline;
+  }
+
+  .animal-index .no-results {
+    @apply p-8 border-2 border-dashed border-gray-400 rounded-lg text-center text-lg font-semibold text-gray-600 col-span-2 md:col-span-3;
+  }
+
+  .animal-index .failed {
+    @apply mx-auto max-w-2xl mt-6 px-4 py-3 bg-red-50 border border-red-400 rounded-lg text-center text-red-700;
+  }
+
+  /* AnimalLive.Show */
+
+  .animal-show .winner {
+    @apply mx-auto mb-8 p-6 text-center text-2xl bg-gradient-to-r from-amber-700 to-red-500 text-white font-extrabold;
+  }
+
+  .animal-show .animal {
+    @apply grid md:grid-cols-3 gap-x-4 mb-10;
+  }
+  .animal-show .animal img {
+    @apply mx-auto w-1/2 px-8 md:w-full;
+  }
+
+  .animal-show .animal section {
+    @apply md:col-span-2 space-y-5;
+  }
+
+  .animal-show .animal section header {
+    @apply flex justify-between items-start;
+  }
+
+  .animal-show .animal section header h2 {
+    @apply flex items-center gap-2 text-2xl font-semibold text-gray-900;
+  }
+
+  .animal-show .animal section header h3 {
+    @apply text-xl text-gray-500;
+  }
+
+  .animal-show .animal section header .name {
+    @apply text-2xl font-medium text-gray-900;
+  }
+
+  .animal-show .animal section .totals {
+    @apply font-medium text-gray-600 flex items-center;
+  }
+
+  .animal-show .animal section .description {
+    @apply text-gray-500 font-light text-lg;
+  }
+
+  .animal-show .activity {
+    @apply grid grid-cols-2 mx-auto md:ml-20;
+  }
+
+  .animal-show .activity .left {
+    @apply justify-self-start;
+  }
+
+  .animal-show .activity .right {
+    @apply text-center justify-self-end space-y-8 w-64;
+  }
+
+  .animal-show .activity .right h4 {
+    @apply text-lg text-gray-600 font-medium text-left pb-1.5 border-b-2 border-gray-200;
+  }
+
+  .animal-show .activity .change-status {
+    @apply mt-2;
+  }
+
+  .animal-show .activity .change-status a {
+    @apply text-xs text-sky-600 hover:text-sky-800 transition ease-in-out duration-150;
+  }
+
+  .animal-show .activity .change-status #emojis {
+    @apply hidden flex items-center justify-center space-x-3 text-xl mt-2;
+  }
+
+  .animal-show .activity .change-status #emojis span {
+    @apply inline-block hover:scale-125 transition duration-300 cursor-pointer;
+  }
+
+  .animal-show #ticket-form {
+    @apply space-y-2 md:flex md:items-center md:space-x-2 md:space-y-0;
+  }
+
+  .animal-show #ticket-form input[type="text"] {
+    @apply mt-0;
+  }
+
+  .animal-show #tickets {
+    @apply mt-8;
+  }
+
+  .animal-show .ticket {
+    @apply relative pb-8;
+  }
+
+  .animal-show .ticket:not(:last-child) .timeline {
+    @apply absolute left-5 top-4 -ml-px h-full w-0.5 bg-gray-200;
+  }
+
+  .animal-show .ticket section {
+    @apply relative flex items-center space-x-3 text-base text-gray-500;
+  }
+
+  .animal-show .ticket section .name-paid {
+    @apply h-10 w-10 rounded-full bg-sky-600 flex items-center justify-center text-white;
+  }
+
+  .animal-show .ticket section .username {
+    @apply font-medium text-gray-900;
+  }
+
+  .animal-show .ticket section blockquote {
+    @apply mt-1 text-base italic text-gray-600;
+  }
+
+  /* AdminAnimalLive.Index */
+
+  .admin-index table a {
+    @apply text-sky-600 hover:text-sky-800 focus:outline-none focus:underline transition ease-in-out duration-150;
+  }
+
+  .admin-index .joke {
+    @apply bg-orange-100 text-orange-600 p-4 my-4 rounded-xl;
+  }
+
+  /* AdminAnimalLive.Form */
+
+  #animal-form .entry {
+    @apply my-6 flex items-center justify-start space-x-6;
+  }
+
+  #animal-form .entry img {
+    @apply w-32;
+  }
+
+  #animal-form .entry .progress {
+    @apply w-full;
+  }
+
+  #animal-form .entry .progress .value {
+    @apply text-left mb-2 text-xs font-semibold inline-block text-sky-600;
+  }
+
+  #animal-form .entry .progress .bar {
+    @apply flex h-2 overflow-hidden text-base bg-sky-200 rounded-lg mb-4;
+  }
+
+  #animal-form .entry .progress .bar>span {
+    @apply shadow-md bg-sky-500;
+    transition: width 1s ease;
+  }
+
+  #animal-form .entry button {
+    @apply text-3xl font-bold text-gray-700 hover:text-red-700 cursor-pointer;
+  }
+
+  #animal-form .hint {
+    @apply my-4 text-gray-600 text-sm;
+  }
+
+  #animal-form .thumbnail {
+    @apply flex flex-row justify-between gap-4;
+  }
+
+  #animal-form .thumbnail div:first-child {
+    @apply w-full;
+  }
+
+  #animal-form .thumbnail img {
+    @apply h-20 w-20;
+  }
+
+  #animal-form .drop {
+    @apply flex items-baseline justify-between space-x-1 my-2 p-4 border-2 border-dashed border-gray-300 rounded-md text-center text-gray-600;
+  }
+
+  #animal-form .drop label {
+    @apply cursor-pointer font-medium text-sky-600 hover:text-sky-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-sky-500;
+  }
+
+  #animal-form .drop span {
+    @apply text-sm text-gray-500;
+  }
+
+  #animal-form .drop img {
+    @apply mx-auto h-12 w-12;
+  }
+
+  #animal-form .drop-stylish {
+    @apply mt-4 p-4 border-2 border-dashed border-gray-300 rounded-md text-center text-gray-500 text-sm;
+  }
+
+  #animal-form .drop-stylish label span {
+    @apply cursor-pointer font-medium text-sky-600 hover:text-sky-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-sky-500;
+  }
+
+  #animal-form .drop-stylish p {
+    @apply text-xs text-gray-400;
+  }
+
+  /* Components and Utilities */
+
+  .badge {
+    @apply rounded-md px-2 py-1 text-xs font-medium uppercase inline-block border text-lime-600 border-lime-600;
+  }
+
+  .button {
+    @apply inline-block rounded-lg bg-zinc-900 hover:bg-zinc-700 hover:text-white py-2 px-3 text-sm font-semibold leading-6 text-white active:text-white/80 focus:no-underline;
+  }
+
+  .spinner {
+    @apply border-gray-300 h-10 w-10 animate-spin rounded-full border-8 border-t-sky-400;
+  }
+
+  .loading {
+    @apply flex justify-center my-6;
+  }
+
+  .failed {
+    @apply flex justify-center my-6 text-sm rounded-md p-3 font-medium text-red-800 border-2 border-dashed border-red-200;
+  }
+
+  header :not(button) > a {
+    @apply text-sky-600 font-medium hover:text-sky-800 focus:outline-none focus:underline transition ease-in-out duration-150;
+  }
+
+  /* Banner Component */
+
+  .banner {
+    @apply mx-auto text-center mb-6 p-4 bg-gradient-to-r from-amber-700 to-red-500;
+  }
+
+  .banner h1 {
+    @apply font-extrabold text-gray-50 text-xl flex items-center justify-center gap-2;
+  }
+
+  .banner .details {
+    @apply mt-1 text-sm font-medium text-gray-50 flex items-center justify-center gap-1;
+  }
+
+  .banner svg {
+    @apply inline-flex w-6 h-6;
+  }
+
+  /* Animal List */
+
+  ul.animals {
+    @apply mt-4 space-y-3 ml-2;
+  }
+
+  ul.animals li {
+    @apply flex items-center gap-x-2 text-sm;
+  }
+
+  ul.animals li img {
+    @apply w-10;
+  }
+
+  ul.animals li a {
+    @apply flex items-center gap-x-2 text-sky-600 font-medium hover:text-sky-800 transition ease-in-out duration-150;
+  }
+
+  /* Presences List */
+
+  ul.presences {
+    @apply mt-4 space-y-2.5 ml-4;
+  }
+
+  ul.presences li {
+    @apply flex items-center gap-x-2 text-gray-600;
+  }
+
+  ul.presences li .status {
+    @apply text-xl;
+  }
+}
+
+/* Animations */
+
+.fade-in-scale {
+  animation: 0.2s ease-in 0s normal forwards 1 fade-in-scale-keys;
+}
+
+.fade-out-scale {
+  animation: 0.2s ease-out 0s normal forwards 1 fade-out-scale-keys;
+}
+
+.fade-in {
+  animation: 0.2s ease-out 0s normal forwards 1 fade-in-keys;
+}
+
+.fade-out {
+  animation: 0.2s ease-out 0s normal forwards 1 fade-out-keys;
+}
+
+.shake {
+  animation: shake 0.25s ease-in-out infinite;
+}
+
+@keyframes fade-in-scale-keys {
+  0% {
+    scale: 0.95;
+    opacity: 0;
+  }
+
+  100% {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out-scale-keys {
+  0% {
+    scale: 1;
+    opacity: 1;
+  }
+
+  100% {
+    scale: 0.95;
+    opacity: 0;
+  }
+}
+
+@keyframes fade-in-keys {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out-keys {
+  0% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes shake {
+  25% {
+    transform: translateX(-6px);
+  }
+
+  50% {
+    transform: translateX(0px);
+  }
+
+  75% {
+    transform: translateX(6px);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
