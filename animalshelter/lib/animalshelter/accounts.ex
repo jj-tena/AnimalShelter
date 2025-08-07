@@ -227,4 +227,20 @@ defmodule Animalshelter.Accounts do
     User.registration_changeset(user, attrs)
   end
 
+  @doc """
+  Devuelve un changeset para actualizar los datos del perfil del usuario.
+  """
+  def change_user_profile(user, attrs \\ %{}) do
+    User.profile_changeset(user, attrs)
+  end
+
+  @doc """
+  Actualiza el perfil del usuario (full_name, phone_number, city, description).
+  """
+  def update_user_profile(%User{} = user, attrs) do
+    user
+    |> change_user_profile(attrs)
+    |> Repo.update()
+  end
+
 end

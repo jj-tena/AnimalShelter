@@ -28,7 +28,7 @@ defmodule AnimalshelterWeb.AnimalLive.Show do
     end
 
     presences = Presence.list_users(id)
-    animal = Animals.get_animal!(id)
+    animal = Animals.get_animal!(id) |> Animalshelter.Repo.preload(winning_ticket: [:user])
     tickets = Animals.list_tickets(animal)
 
     # Verificar si el usuario ya tiene ticket para este animal
@@ -59,7 +59,7 @@ defmodule AnimalshelterWeb.AnimalLive.Show do
     <div class="animal-show">
       <CustomComponents.banner :if={@animal.winning_ticket}>
         <.icon name="hero-sparkles-solid"/>
-        La solicitud #{@animal.winning_ticket.id} ha sido seleccionada para adoptar a <%= @animal.name %>
+        El usuario <%= @animal.winning_ticket.user && @animal.winning_ticket.user.username %> ha sido seleccionado para adoptar a <%= @animal.name %>
         <:details>
           {@animal.winning_ticket.comment}
         </:details>
@@ -98,7 +98,7 @@ defmodule AnimalshelterWeb.AnimalLive.Show do
             <%= if @current_scope && @current_scope.user do %>
               <%= if !@has_ticket do %>
                 <.form for={@form} id="ticket-form" phx-change="validate" phx-submit="save">
-                  <.input field={@form[:comment]} placeholder="Comenta..." autofocus/>
+                  <.input type="textarea" field={@form[:comment]} placeholder="Comenta..." autofocus/>
                   <.button>
                     Enviar solicitud
                   </.button>

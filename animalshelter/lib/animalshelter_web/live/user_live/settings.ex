@@ -4,6 +4,7 @@ defmodule AnimalshelterWeb.UserLive.Settings do
   on_mount {AnimalshelterWeb.UserAuth, :require_sudo_mode}
 
   alias Animalshelter.Accounts
+  alias Animalshelter.Accounts.User
 
   @impl true
   def render(assigns) do
@@ -11,7 +12,7 @@ defmodule AnimalshelterWeb.UserLive.Settings do
       <div class="text-center">
         <.header>
           Configuración de la cuenta
-          <:subtitle>Modifica el correo electrónico, nombre de usuario y la contraseña de tu cuenta</:subtitle>
+          <:subtitle>Modifica el correo electrónico, nombre de usuario, contraseña y datos del perfil</:subtitle>
         </.header>
       </div>
 
@@ -74,6 +75,32 @@ defmodule AnimalshelterWeb.UserLive.Settings do
           Guardar contraseña
         </.button>
       </.simple_form>
+
+      <div class="divider" />
+
+      <.simple_form for={@profile_form} id="profile_form" phx-submit="update_profile" phx-change="validate_profile">
+        <.input
+          field={@profile_form[:full_name]}
+          type="text"
+          label="Nombre completo"
+        />
+        <.input
+          field={@profile_form[:phone_number]}
+          type="text"
+          label="Teléfono"
+        />
+        <.input
+          field={@profile_form[:city]}
+          type="text"
+          label="Ciudad"
+        />
+        <.input
+          field={@profile_form[:description]}
+          type="textarea"
+          label="Descripción o información adicional"
+        />
+        <.button phx-disable-with="Guardando...">Actualizar perfil</.button>
+      </.simple_form>
     """
   end
 
@@ -97,6 +124,7 @@ defmodule AnimalshelterWeb.UserLive.Settings do
     email_changeset = Accounts.change_user_email(user, %{}, validate_unique: false)
     password_changeset = Accounts.change_user_password(user, %{}, hash_password: false)
     username_changeset = Accounts.change_user_username(user, %{}, validate_unique: false)
+    profile_changeset = Accounts.change_user_profile(user, %{})
 
     socket =
       socket
@@ -104,6 +132,7 @@ defmodule AnimalshelterWeb.UserLive.Settings do
       |> assign(:email_form, to_form(email_changeset))
       |> assign(:password_form, to_form(password_changeset))
       |> assign(:username_form, to_form(username_changeset))
+      |> assign(:profile_form, to_form(profile_changeset))
       |> assign(:trigger_submit, false)
 
     {:ok, socket}
@@ -127,9 +156,7 @@ defmodule AnimalshelterWeb.UserLive.Settings do
     case Accounts.change_user_username(user, user_params) do
       %{valid?: true} = changeset ->
         {:ok, _user} = Accounts.update_user_username(user, changeset.changes)
-
-        info = "Nombre de usuario actualizado con éxito."
-        {:noreply, socket |> put_flash(:info, info)}
+        {:noreply, put_flash(socket, :info, "Nombre de usuario actualizado con éxito.")}
 
       changeset ->
         {:noreply, assign(socket, :username_form, to_form(changeset, action: :insert))}
@@ -152,8 +179,7 @@ defmodule AnimalshelterWeb.UserLive.Settings do
 
     case Accounts.update_user_email(user, user_params) do
       {:ok, _user} ->
-        info = "El correo electrónico se ha actualizado correctamente."
-        {:noreply, socket |> put_flash(:info, info)}
+        {:noreply, put_flash(socket, :info, "El correo electrónico se ha actualizado correctamente.")}
 
       {:error, changeset} ->
         {:noreply, assign(socket, :email_form, to_form(changeset, action: :update))}
@@ -180,6 +206,30 @@ defmodule AnimalshelterWeb.UserLive.Settings do
 
       changeset ->
         {:noreply, assign(socket, password_form: to_form(changeset, action: :insert))}
+    end
+  end
+
+  def handle_event("validate_profile", %{"user" => user_params}, socket) do
+    profile_form =
+      socket.assigns.current_scope.user
+      |> Accounts.change_user_profile(user_params)
+      |> Map.put(:action, :validate)
+      |> to_form()
+
+    {:noreply, assign(socket, profile_form: profile_form)}
+  end
+
+  def handle_event("update_profile", %{"user" => user_params}, socket) do
+    user = socket.assigns.current_scope.user
+    true = Accounts.sudo_mode?(user)
+
+    changeset = Accounts.change_user_profile(user, user_params)
+
+    if changeset.valid? do
+      {:ok, _user} = Accounts.update_user_profile(user, changeset.changes)
+      {:noreply, put_flash(socket, :info, "Perfil actualizado con éxito.")}
+    else
+      {:noreply, assign(socket, profile_form: to_form(changeset, action: :insert))}
     end
   end
 end

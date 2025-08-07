@@ -11,6 +11,11 @@ defmodule Animalshelter.Accounts.User do
     field :confirmed_at, :utc_datetime
     field :authenticated_at, :utc_datetime, virtual: true
 
+    field :full_name, :string
+    field :phone_number, :string
+    field :description, :string
+    field :city, :string
+
     has_many :tickets, Animalshelter.Tickets.Ticket
 
     timestamps(type: :utc_datetime)
@@ -19,13 +24,10 @@ defmodule Animalshelter.Accounts.User do
   @doc """
   A user changeset for registering or changing the email.
 
-  It requires the email to change otherwise an error is added.
-
   ## Options
 
     * `:validate_unique` - Set to false if you don't want to validate the
-      uniqueness of the email, useful when displaying live validations.
-      Defaults to `true`.
+      uniqueness of the email. Defaults to `true`.
   """
   def email_changeset(user, attrs, opts \\ []) do
     user
@@ -63,17 +65,9 @@ defmodule Animalshelter.Accounts.User do
   @doc """
   A user changeset for changing the password.
 
-  It is important to validate the length of the password, as long passwords may
-  be very expensive to hash for certain algorithms.
-
   ## Options
 
-    * `:hash_password` - Hashes the password so it can be stored securely
-      in the database and ensures the password field is cleared to prevent
-      leaks in the logs. If password hashing is not needed and clearing the
-      password field is not desired (like when using this changeset for
-      validations on a LiveView form), this option can be set to `false`.
-      Defaults to `true`.
+    * `:hash_password` - Whether to hash the password. Defaults to `true`.
   """
   def password_changeset(user, attrs, opts \\ []) do
     user
@@ -123,12 +117,21 @@ defmodule Animalshelter.Accounts.User do
     |> unique_constraint(:username, message: "ya está en uso")
   end
 
+  defp validate_optional_profile_fields(changeset) do
+    changeset
+    |> validate_length(:full_name, min: 3, max: 100)
+    |> validate_length(:phone_number, max: 20)
+    |> validate_length(:description, max: 500)
+    |> validate_length(:city, max: 50)
+  end
+
   def registration_changeset(user, attrs, opts \\ []) do
     user
-    |> cast(attrs, [:email, :username, :password])
+    |> cast(attrs, [:email, :username, :password, :full_name, :phone_number, :description, :city])
     |> validate_email(opts)
     |> validate_username()
     |> validate_password(opts)
+    |> validate_optional_profile_fields()
   end
 
   @doc """
@@ -141,9 +144,6 @@ defmodule Animalshelter.Accounts.User do
 
   @doc """
   Verifies the password.
-
-  If there is no user or the user doesn't have a password, we call
-  `Bcrypt.no_user_verify/0` to avoid timing attacks.
   """
   def valid_password?(%Animalshelter.Accounts.User{hashed_password: hashed_password}, password)
       when is_binary(hashed_password) and byte_size(password) > 0 do
@@ -170,6 +170,18 @@ defmodule Animalshelter.Accounts.User do
     |> Ecto.Changeset.validate_required([:username])
     |> Ecto.Changeset.validate_length(:username, min: 3, max: 20)
     |> Ecto.Changeset.unique_constraint(:username)
+  end
+
+  @doc """
+  Changeset para actualizar el perfil del usuario.
+  """
+  def profile_changeset(user, attrs) do
+    user
+    |> cast(attrs, [:full_name, :phone_number, :city, :description])
+    |> validate_length(:full_name, max: 100)
+    |> validate_length(:phone_number, max: 20)
+    |> validate_length(:city, max: 50)
+    |> validate_length(:description, max: 1000)
   end
 
 end

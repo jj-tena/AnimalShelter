@@ -22,6 +22,7 @@ defmodule Animalshelter.Admin do
 
   def get_animal!(id) do
     Repo.get!(Animal, id)
+    |> Repo.preload(tickets: [:user, :animal])
   end
 
   def update_animal(%Animal{} = animal, attrs) do
