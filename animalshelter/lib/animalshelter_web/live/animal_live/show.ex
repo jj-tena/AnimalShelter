@@ -184,6 +184,7 @@ defmodule AnimalshelterWeb.AnimalLive.Show do
           |> assign(:form, to_form(changeset))
           |> stream_insert(:tickets, ticket, at: 0)
           |> update(:ticket_count, &(&1 + 1))
+          |> assign(:has_ticket, true)
         {:noreply, socket}
 
       {:error, changeset} ->
