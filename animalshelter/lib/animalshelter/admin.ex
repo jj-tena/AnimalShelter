@@ -48,7 +48,7 @@ defmodule Animalshelter.Admin do
 
     case animal.tickets do
       [] ->
-        {:error, "No hay tickets entre los que elegir un ganador"}
+        {:error, "No hay solicitudes entre las que elegir un adoptante"}
       tickets ->
         winner = Enum.random(tickets)
         {:ok, _animal} = update_animal(animal, %{
@@ -58,7 +58,7 @@ defmodule Animalshelter.Admin do
   end
 
   def draw_winner(%Animal{}) do
-    {:error, "El sorteo debe estar cerrado para elegir un ganador"}
+    {:error, "Las presentación de solicitudes para el animal debe estar cerrada para elegir un adoptante"}
   end
 
 end

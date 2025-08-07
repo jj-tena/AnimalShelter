@@ -17,7 +17,7 @@ defmodule AnimalshelterWeb.AdminAnimalLive.Form do
     changeset = Admin.change_animal(animal)
 
     socket
-      |> assign(:page_title, "Nuevo sorteo")
+      |> assign(:page_title, "Nuevo animal")
       |> assign(:form, to_form(changeset))
       |> assign(:animal, animal)
   end
@@ -28,7 +28,7 @@ defmodule AnimalshelterWeb.AdminAnimalLive.Form do
     changeset = Admin.change_animal(animal)
 
     socket
-      |> assign(:page_title, "Editar sorteo")
+      |> assign(:page_title, "Editar animal")
       |> assign(:form, to_form(changeset))
       |> assign(:animal, animal)
   end
@@ -62,7 +62,7 @@ defmodule AnimalshelterWeb.AdminAnimalLive.Form do
       <.input field={@form[:image_path]} label="URL de la imagen" />
 
       <:actions>
-        <.button>Guardar sorteo</.button>
+        <.button>Guardar animal</.button>
       </:actions>
     </.simple_form>
 
@@ -87,7 +87,7 @@ defmodule AnimalshelterWeb.AdminAnimalLive.Form do
       {:ok, _animal} ->
         socket =
           socket
-          |> put_flash(:info, "¡Sorteo creado correctamente!")
+          |> put_flash(:info, "Animal creado correctamente!")
           |> push_navigate(to: ~p"/admin/animals")
 
         {:noreply, socket}
@@ -103,7 +103,7 @@ defmodule AnimalshelterWeb.AdminAnimalLive.Form do
       {:ok, _animal} ->
         socket =
           socket
-          |> put_flash(:info, "¡Sorteo editado correctamente!")
+          |> put_flash(:info, "Animal editado correctamente!")
           |> push_navigate(to: ~p"/admin/animals")
 
         {:noreply, socket}

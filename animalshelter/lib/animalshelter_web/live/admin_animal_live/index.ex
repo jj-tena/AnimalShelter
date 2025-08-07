@@ -8,7 +8,7 @@ defmodule AnimalshelterWeb.AdminAnimalLive.Index do
   def mount(_params, _session, socket) do
     socket =
       socket
-      |> assign(:page_title, "Listado de sorteos")
+      |> assign(:page_title, "Listado de animales")
       |> stream(:animals, Admin.list_animals())
     {:ok, socket}
   end
@@ -20,7 +20,7 @@ defmodule AnimalshelterWeb.AdminAnimalLive.Index do
         <%= @page_title %>
         <:actions>
           <.link navigate={~p"/admin/animals/new"} class="button">
-            Nuevo sorteo
+            Nuevo animal
           </.link>
         </:actions>
       </.header>
@@ -69,7 +69,7 @@ defmodule AnimalshelterWeb.AdminAnimalLive.Index do
 
         <:action :let={{_dom_id, animal}}>
           <.link phx-click="draw-winner" phx-value-id={animal.id}>
-            Obtener ganador
+            Seleccionar adoptante
           </.link>
         </:action>
       </.table>
@@ -89,7 +89,7 @@ defmodule AnimalshelterWeb.AdminAnimalLive.Index do
       {:ok, animal} ->
         socket =
           socket
-          |> put_flash(:info, "¡Ticket ganador seleccionado!")
+          |> put_flash(:info, "¡Usuario de adopción seleccionado!")
           |> stream_insert(:animals, animal)
         {:noreply, socket}
       {:error, error} ->

@@ -59,7 +59,7 @@ defmodule AnimalshelterWeb.AnimalLive.Show do
     <div class="animal-show">
       <CustomComponents.banner :if={@animal.winning_ticket}>
         <.icon name="hero-sparkles-solid"/>
-        El ticket #{@animal.winning_ticket.id} ha ganado el sorteo
+        La solicitud #{@animal.winning_ticket.id} ha sido seleccionada para adoptar a <%= @animal.name %>
         <:details>
           {@animal.winning_ticket.comment}
         </:details>
@@ -146,7 +146,7 @@ defmodule AnimalshelterWeb.AnimalLive.Show do
   def featured_animals(assigns) do
     ~H"""
     <section>
-      <h4>Otros sorteos</h4>
+      <h4>Otros animales</h4>
       <.async_result :let={result} assign={@animals}>
         <:loading>
           <div class="spinner"> </div>
